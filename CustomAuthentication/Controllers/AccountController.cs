@@ -99,6 +99,8 @@ namespace CustomAuthentication.Controllers
                 //Save User Data   
                 using (AuthenticationDbContext dbContext = new AuthenticationDbContext())
                 {
+                    registrationView.ActivationCode = Guid.NewGuid();
+
                     var user = new User()
                     {
                         Username = registrationView.Username,
@@ -106,7 +108,7 @@ namespace CustomAuthentication.Controllers
                         LastName = registrationView.LastName,
                         Email = registrationView.Email,
                         Password = registrationView.Password,
-                        ActivationCode = Guid.NewGuid(),
+                        ActivationCode = registrationView.ActivationCode,
                     };
 
                     dbContext.Users.Add(user);
@@ -168,10 +170,10 @@ namespace CustomAuthentication.Controllers
             var url = string.Format("/Account/ActivationAccount/{0}", activationCode);
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url);
 
-            var fromEmail = new MailAddress("mehdi.rami2012@gmail.com", "Activation Account - AKKA");
+            var fromEmail = new MailAddress("sushilsingh4singh@gmail.com", "Activation Account - AKKA");
             var toEmail = new MailAddress(email);
 
-            var fromEmailPassword = "******************";
+            var fromEmailPassword = "Khanak@2017";
             string subject = "Activation Account !";
 
             string body = "<br/> Please click on the following link in order to activate your account" + "<br/><a href='" + link + "'> Activation Account ! </a>";
@@ -179,7 +181,7 @@ namespace CustomAuthentication.Controllers
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
-                Port = 587,
+                Port = 465,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
@@ -194,8 +196,7 @@ namespace CustomAuthentication.Controllers
 
             })
 
-                smtp.Send(message);
-
+            smtp.Send(message);
         }
     }
 }

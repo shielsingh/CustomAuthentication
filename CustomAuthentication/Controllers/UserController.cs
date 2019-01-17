@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace CustomAuthentication.Controllers
 {
-    [CustomAuthorize(Roles = "User")]
+    [CustomAuthorize(Roles = "Admin")]
     public class UserController : Controller
     {
         // GET: User
